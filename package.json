@@ -2,11 +2,10 @@
   "name": "devtinder",
   "version": "1.0.0",
   "description": "tinder for dev",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
-    "start" : "node src/app.js",
-    "dev" : "nodemon scr/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/app.js",
+    "dev": "nodemon scr/app.js"
   },
   "keywords": [
     "nodejs",
