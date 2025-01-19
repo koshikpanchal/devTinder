@@ -17,6 +17,26 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+app.get("/user", async (req, res) => {
+  const userEmail = req.body.emailId;
+
+  try {
+    const user = await User.find({ emailId: userEmail });
+    res.send(user);
+  } catch (err) {
+    console.error("error saving user", err);
+  }
+});
+
+app.get("/feed", async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.send(users);
+  } catch (err) {
+    console.error("error saving user", err);
+  }
+});
+
 // first connect to the DB
 connectDB()
   .then(() => {
