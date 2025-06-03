@@ -37,9 +37,9 @@ app.get("/user", async (req, res) => {
 
 //delete the user from the _id
 app.delete("/user", async (req, res) => {
-  const _id = req.body.userId;
+  const userEmailId = req.body.emailId;
   try {
-    await User.findByIdAndDelete(_id);
+    await User.findOneAndDelete({ emailId: userEmailId });
     res.send("user deleted successfully");
   } catch (err) {
     res.status(400).send("something went wrong");
