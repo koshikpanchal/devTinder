@@ -47,7 +47,7 @@ app.post("/login", async (req, res) => {
     const isPasswordValid = user.validatePassword(password);
     if (isPasswordValid) {
       // create JWT token:
-      const token = user.getJWT();
+      const token = await user.getJWT();
 
       // Add token to the cookie
       res.cookie("token", token);
