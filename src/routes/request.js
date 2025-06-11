@@ -25,7 +25,7 @@ requestRouter.post(
         return res.status(400).json({ message: "Use not found" });
       }
 
-      const existingConnectionRequest = ConnectionRequest.findOne({
+      const existingConnectionRequest = await ConnectionRequest.findOne({
         $or: [
           { fromUserId, toUserId },
           { fromUserId: toUserId, toUserId: fromUserId },
@@ -50,7 +50,45 @@ requestRouter.post(
         message: `connection request ${status} successfully`,
         data,
       });
-    } catch (err) {}
+    } catch (err) {
+      res.status(400).json("Something went wrong " + err.message);
+    }
+  }
+);
+
+requestRouter.post(
+  "/request/review/:status/:requestId",
+  userAuth,
+  async (req, res) => {
+    try {
+      const loggedInUser = req.user;
+      const { status, requestId } = req.params;
+
+      const allowedStatus = ["accepted", "rejected"];
+
+      if (!allowedStatus.includes(status)) {
+        return res.status(400).json({ message: "invalid status type" });
+      }
+
+      const connectionRequest = await ConnectionRequest.findOne({
+        _id: requestId,
+        toUserId: loggedInUser,
+        status: "intrested",
+      });
+
+      if (!connectionRequest) {
+        return res
+          .status(400)
+          .json({ message: "connection request not found" });
+      }
+
+      connectionRequest.status = status;
+      const data = await connectionRequest.save();
+
+      res.json({ message: `connection request ${status}`, data });
+    } catch (err) {
+      res.status(400).json("Something went wrong " + err.message);
+    }
   }
 );
 
