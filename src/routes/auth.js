@@ -48,7 +48,16 @@ authRouter.post("/login", async (req, res) => {
       res.cookie("token", token);
 
       res.json({
-        data: { firstName: user.firstName, lastName: user.lastName },
+        data: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          about: user.about,
+          skills: user.skills,
+          age: user.age,
+          photoUrl: user.photoUrl,
+          gender: user.gender,
+          emailId: user.emailId,
+        },
       });
     } else {
       throw new Error("invalid credentials");
