@@ -5,7 +5,8 @@ const User = require("../models/user");
 
 const userRouter = express.Router();
 
-const USER_SAFE_DATA = "firstName lastname age about skills";
+const USER_SAFE_DATA =
+  "firstName lastName age about skills photoUrl emailId gender";
 
 userRouter.post("/user/requests/recieved", userAuth, async (req, res) => {
   try {
