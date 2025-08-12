@@ -3,6 +3,8 @@ const { connectDB } = require("./config/database");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 require("dotenv").config();
+const http = require("http");
+const initializeSocket = require("./utils/socket");
 
 const app = express();
 app.use(
@@ -24,12 +26,15 @@ app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
 
+const server = http.createServer(app);
+initializeSocket(server);
+
 // first connect to the DB
 connectDB()
   .then(() => {
     console.log("Databse is connected succesfully");
     // then connect to the server
-    app.listen(process.env.PORT, () => {
+    server.listen(process.env.PORT, () => {
       console.log(`listening on port ${process.env.PORT}`);
     });
   })
